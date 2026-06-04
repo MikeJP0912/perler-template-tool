@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>拼豆模板生成器</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #1c1b1a;
+        --muted: #6a625b;
+        --line: #d9d2ca;
+        --panel: #fffdfa;
+        --paper: #f5f2ed;
+        --accent: #167f78;
+        --accent-2: #d94f45;
+        --gold: #c8902d;
+        --blue: #2d6cc8;
+        --shadow: 0 18px 50px rgba(36, 31, 26, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--paper);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .app {
+        display: grid;
+        grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      aside {
+        border-right: 1px solid var(--line);
+        background: var(--panel);
+        padding: 24px;
+        overflow: auto;
+      }
+
+      main {
+        padding: 24px;
+        overflow: auto;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+      }
+
+      .logo {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3px;
+        padding: 4px;
+        border-radius: 8px;
+        background: #2a2926;
+      }
+
+      .logo span {
+        border-radius: 50%;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 21px;
+        line-height: 1.15;
+      }
+
+      .subhead {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 4px;
+      }
+
+      .section {
+        border-top: 1px solid var(--line);
+        padding-top: 18px;
+        margin-top: 18px;
+      }
+
+      .section-title {
+        font-weight: 760;
+        margin-bottom: 12px;
+      }
+
+      .dropzone {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 150px;
+        border: 1.5px dashed #b8aea3;
+        border-radius: 8px;
+        background: #faf7f2;
+        cursor: pointer;
+        transition:
+          border-color 160ms ease,
+          background 160ms ease;
+      }
+
+      .dropzone:hover,
+      .dropzone.dragover {
+        border-color: var(--accent);
+        background: #eef8f5;
+      }
+
+      .dropzone input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .drop-copy {
+        text-align: center;
+        color: var(--muted);
+        padding: 18px;
+        line-height: 1.5;
+      }
+
+      .drop-copy strong {
+        display: block;
+        color: var(--ink);
+        margin-bottom: 4px;
+      }
+
+      .control {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .control label {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .control label strong {
+        color: var(--ink);
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--accent);
+      }
+
+      input[type="number"],
+      select {
+        width: 100%;
+        min-height: 40px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: #fff;
+        padding: 8px 10px;
+        color: var(--ink);
+      }
+
+      .grid-two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .segmented {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .segmented button {
+        border: 0;
+        border-right: 1px solid var(--line);
+        min-height: 38px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .segmented button:last-child {
+        border-right: 0;
+      }
+
+      .segmented button.active {
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+      }
+
+      .toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        min-height: 42px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .toggle input {
+        width: 20px;
+        height: 20px;
+        accent-color: var(--accent);
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .btn {
+        min-height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: #fff;
+        color: var(--ink);
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .btn.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+
+      .btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.48;
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+        gap: 22px;
+        align-items: start;
+      }
+
+      .preview-band,
+      .stats-band {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      .preview-band {
+        min-height: calc(100vh - 48px);
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .preview-top,
+      .stats-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .preview-title,
+      .stats-title {
+        font-weight: 760;
+      }
+
+      .meta {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .canvas-wrap {
+        min-height: 420px;
+        display: grid;
+        place-items: center;
+        padding: 18px;
+        overflow: auto;
+      }
+
+      canvas {
+        image-rendering: pixelated;
+      }
+
+      #templateCanvas {
+        max-width: 100%;
+        max-height: calc(100vh - 160px);
+        background: #fff;
+        border: 1px solid #c7beb5;
+      }
+
+      .empty-state {
+        max-width: 360px;
+        text-align: center;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .stats-band {
+        max-height: calc(100vh - 48px);
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: auto auto minmax(0, 1fr);
+      }
+
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .summary div {
+        background: #fff;
+        padding: 12px;
+      }
+
+      .summary strong {
+        display: block;
+        font-size: 20px;
+      }
+
+      .summary span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .palette-list {
+        overflow: auto;
+        padding: 8px 0;
+      }
+
+      .color-row {
+        display: grid;
+        grid-template-columns: 28px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        min-height: 44px;
+        padding: 7px 14px;
+      }
+
+      .swatch {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 0, 0, 0.18);
+      }
+
+      .color-name {
+        font-size: 14px;
+        line-height: 1.25;
+      }
+
+      .color-code {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .count {
+        font-weight: 760;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      @media (max-width: 980px) {
+        .app,
+        .workspace {
+          grid-template-columns: 1fr;
+        }
+
+        aside {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .preview-band {
+          min-height: 520px;
+        }
+
+        .stats-band {
+          max-height: none;
+        }
+      }
+
+      @media (max-width: 560px) {
+        aside,
+        main {
+          padding: 16px;
+        }
+
+        .actions,
+        .grid-two {
+          grid-template-columns: 1fr;
+        }
+
+        .summary {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside>
+        <div class="brand">
+          <div class="logo" aria-hidden="true">
+            <span style="background:#e84d43"></span>
+            <span style="background:#f2c94c"></span>
+            <span style="background:#2d9cdb"></span>
+            <span style="background:#27ae60"></span>
+            <span style="background:#fff"></span>
+            <span style="background:#9b51e0"></span>
+            <span style="background:#f2994a"></span>
+            <span style="background:#56ccf2"></span>
+            <span style="background:#eb5757"></span>
+          </div>
+          <div>
+            <h1>拼豆模板生成器</h1>
+            <div class="subhead">图片转像素模板和用量清单</div>
+          </div>
+        </div>
+
+        <div class="section" style="border-top:0;padding-top:0;margin-top:0">
+          <div class="section-title">图片</div>
+          <label id="dropzone" class="dropzone">
+            <input id="imageInput" type="file" accept="image/*" />
+            <span class="drop-copy">
+              <strong>上传图片</strong>
+              PNG、JPG、WebP 均可
+            </span>
+          </label>
+          <button id="loadSample" type="button" class="btn" style="width:100%;margin-top:10px">示例图</button>
+        </div>
+
+        <div class="section">
+          <div class="section-title">尺寸</div>
+          <div class="grid-two">
+            <div class="control">
+              <label for="widthInput"><strong>宽度</strong><span id="widthLabel">48</span></label>
+              <input id="widthInput" type="number" min="8" max="180" value="58" />
+            </div>
+            <div class="control">
+              <label for="heightInput"><strong>高度</strong><span id="heightLabel">48</span></label>
+              <input id="heightInput" type="number" min="8" max="180" value="58" />
+            </div>
+          </div>
+          <div class="control">
+            <label><strong>常用钉板</strong><span>快速设置</span></label>
+            <div class="segmented" id="sizePresets">
+              <button type="button" data-size="29">29</button>
+              <button type="button" data-size="58" class="active">58</button>
+              <button type="button" data-size="100">100</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">颜色</div>
+          <div class="control">
+            <label for="paletteSelect"><strong>色卡</strong><span>内置基础色</span></label>
+            <select id="paletteSelect">
+              <option value="classic">经典拼豆色卡</option>
+              <option value="soft">低饱和柔和色卡</option>
+              <option value="bold">高饱和鲜明色卡</option>
+            </select>
+          </div>
+          <div class="control">
+            <label for="colorLimit"><strong>颜色上限</strong><span id="colorLimitLabel">24</span></label>
+            <input id="colorLimit" type="range" min="4" max="48" value="24" />
+          </div>
+          <label class="toggle">
+            <span>启用抖动，让渐变更自然</span>
+            <input id="ditherInput" type="checkbox" checked />
+          </label>
+          <label class="toggle">
+            <span>透明区域留空</span>
+            <input id="transparentInput" type="checkbox" checked />
+          </label>
+        </div>
+
+        <div class="section">
+          <div class="section-title">图像调整</div>
+          <div class="control">
+            <label for="brightnessInput"><strong>亮度</strong><span id="brightnessLabel">0</span></label>
+            <input id="brightnessInput" type="range" min="-40" max="40" value="0" />
+          </div>
+          <div class="control">
+            <label for="contrastInput"><strong>对比度</strong><span id="contrastLabel">0</span></label>
+            <input id="contrastInput" type="range" min="-40" max="40" value="0" />
+          </div>
+          <div class="control">
+            <label for="saturationInput"><strong>饱和度</strong><span id="saturationLabel">0</span></label>
+            <input id="saturationInput" type="range" min="-50" max="60" value="0" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="exportPng" type="button" class="btn primary" disabled>导出 PNG</button>
+          <button id="exportCsv" type="button" class="btn" disabled>导出清单</button>
+        </div>
+      </aside>
+
+      <main>
+        <div class="workspace">
+          <section class="preview-band">
+            <div class="preview-top">
+              <div>
+                <div class="preview-title">模板预览</div>
+                <div id="templateMeta" class="meta">等待图片上传</div>
+              </div>
+              <div id="renderMode" class="segmented" style="width:236px">
+                <button type="button" data-mode="beads" class="active">圆豆</button>
+                <button type="button" data-mode="grid">格子</button>
+                <button type="button" data-mode="symbols">编号</button>
+              </div>
+            </div>
+            <div class="canvas-wrap">
+              <div id="emptyState" class="empty-state">
+                上传一张图片后，这里会生成每颗豆对应一个格子的彩色模板。
+              </div>
+              <canvas id="templateCanvas" class="hidden"></canvas>
+            </div>
+          </section>
+
+          <section class="stats-band">
+            <div class="stats-top">
+              <div>
+                <div class="stats-title">用量清单</div>
+                <div class="meta">按数量从多到少排序</div>
+              </div>
+            </div>
+            <div class="summary">
+              <div><strong id="totalBeads">0</strong><span>总颗数</span></div>
+              <div><strong id="usedColors">0</strong><span>使用颜色</span></div>
+              <div><strong id="blankBeads">0</strong><span>留空格</span></div>
+            </div>
+            <div id="paletteList" class="palette-list">
+              <div class="empty-state" style="padding:30px 20px">暂无颜色数据</div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const palettes = {
+        classic: [
+          ["K01", "白色", "#f8f6ef"], ["K02", "奶油", "#ead7a5"], ["K03", "黄色", "#f5cf2e"],
+          ["K04", "橙色", "#f28c28"], ["K05", "红色", "#d83b35"], ["K06", "粉红", "#ee8fa9"],
+          ["K07", "玫红", "#c73373"], ["K08", "紫色", "#7447a8"], ["K09", "深紫", "#44326f"],
+          ["K10", "浅蓝", "#70b7dd"], ["K11", "蓝色", "#2e76bd"], ["K12", "深蓝", "#214a86"],
+          ["K13", "青绿", "#1f9d91"], ["K14", "薄荷", "#85c9a5"], ["K15", "绿色", "#4a9b45"],
+          ["K16", "深绿", "#2f6239"], ["K17", "浅棕", "#b7804b"], ["K18", "棕色", "#6d452b"],
+          ["K19", "灰色", "#8c8e8f"], ["K20", "浅灰", "#c8c8c4"], ["K21", "黑色", "#242322"],
+          ["K22", "珊瑚", "#f06b5d"], ["K23", "天蓝", "#9ad7e9"], ["K24", "酒红", "#7e273b"],
+          ["K25", "米色", "#d9c4a0"], ["K26", "橄榄", "#787a39"], ["K27", "荧光绿", "#a6d943"],
+          ["K28", "薰衣草", "#b49ad7"], ["K29", "桃色", "#f0b28f"], ["K30", "海军蓝", "#182f4f"],
+          ["K31", "金黄", "#d7a829"], ["K32", "砖红", "#994037"], ["K33", "青色", "#28a9c7"],
+          ["K34", "森林绿", "#24513c"], ["K35", "烟粉", "#d9a4a8"], ["K36", "炭灰", "#4a4a4a"],
+          ["K37", "浅紫", "#d5c1ea"], ["K38", "酸橙", "#c4d94a"], ["K39", "杏色", "#f2c7a4"],
+          ["K40", "孔雀蓝", "#156d7d"], ["K41", "巧克力", "#3f271b"], ["K42", "象牙", "#fff1d0"],
+          ["K43", "莓果", "#9b1f58"], ["K44", "浅绿", "#b8df8f"], ["K45", "银灰", "#a8adb0"],
+          ["K46", "深红", "#8e1f25"], ["K47", "水蓝", "#c7edf0"], ["K48", "墨绿", "#173c2d"]
+        ],
+        soft: [
+          ["S01", "瓷白", "#fbf8f2"], ["S02", "雾黄", "#e9d883"], ["S03", "杏粉", "#efb4a5"],
+          ["S04", "浅桃", "#f2c7bb"], ["S05", "雾红", "#c96f69"], ["S06", "豆沙", "#b55d78"],
+          ["S07", "藕紫", "#a58cb8"], ["S08", "灰紫", "#7e7294"], ["S09", "雾蓝", "#8db5cf"],
+          ["S10", "湖蓝", "#6ba3b8"], ["S11", "蓝灰", "#5c7895"], ["S12", "淡青", "#9ccfc9"],
+          ["S13", "鼠尾草", "#91ad80"], ["S14", "苔绿", "#6f8359"], ["S15", "米棕", "#b49a77"],
+          ["S16", "驼色", "#96785c"], ["S17", "浅灰", "#c8c6bf"], ["S18", "暖灰", "#9e9990"],
+          ["S19", "深灰", "#55514d"], ["S20", "黑咖", "#28231f"], ["S21", "奶油", "#f0e1bc"],
+          ["S22", "浅绿", "#c3d3a3"], ["S23", "雾粉", "#e4a7b2"], ["S24", "霜蓝", "#c1dce8"]
+        ],
+        bold: [
+          ["B01", "白", "#ffffff"], ["B02", "柠檬黄", "#ffe02b"], ["B03", "金橙", "#ff9c1b"],
+          ["B04", "正红", "#e31d2b"], ["B05", "亮粉", "#ff5aa7"], ["B06", "洋红", "#d31f7c"],
+          ["B07", "紫", "#6d35c4"], ["B08", "电蓝", "#1667d9"], ["B09", "天蓝", "#37b6ed"],
+          ["B10", "青", "#00a7a5"], ["B11", "翠绿", "#24b84a"], ["B12", "荧光绿", "#a8e52c"],
+          ["B13", "深绿", "#176a38"], ["B14", "棕", "#75431f"], ["B15", "浅棕", "#c0843d"],
+          ["B16", "肤色", "#f0b483"], ["B17", "浅灰", "#d2d2d2"], ["B18", "灰", "#808080"],
+          ["B19", "黑", "#111111"], ["B20", "海蓝", "#005e88"], ["B21", "酒红", "#7d1634"],
+          ["B22", "珊瑚", "#ff7062"], ["B23", "薄荷", "#70db9c"], ["B24", "薰衣草", "#bd92ff"]
+        ]
+      };
+
+      const $ = (id) => document.getElementById(id);
+      const state = {
+        image: null,
+        imageName: "",
+        pixels: [],
+        stats: [],
+        blanks: 0,
+        mode: "beads",
+        sourceUrl: ""
+      };
+
+      const inputIds = [
+        "widthInput", "heightInput", "paletteSelect", "colorLimit", "ditherInput",
+        "transparentInput", "brightnessInput", "contrastInput", "saturationInput"
+      ];
+
+      inputIds.forEach((id) => $(id).addEventListener("input", () => {
+        updateLabels();
+        renderTemplate();
+      }));
+
+      $("imageInput").addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (file) loadImageFile(file);
+      });
+
+      $("loadSample").addEventListener("click", () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 180;
+        canvas.height = 180;
+        const ctx = canvas.getContext("2d");
+        const sky = ctx.createLinearGradient(0, 0, 0, 180);
+        sky.addColorStop(0, "#80cbe8");
+        sky.addColorStop(1, "#f2d08e");
+        ctx.fillStyle = sky;
+        ctx.fillRect(0, 0, 180, 180);
+        ctx.fillStyle = "#f5cf2e";
+        ctx.beginPath();
+        ctx.arc(132, 44, 24, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#2f6239";
+        ctx.beginPath();
+        ctx.moveTo(22, 150);
+        ctx.lineTo(80, 64);
+        ctx.lineTo(138, 150);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "#4a9b45";
+        ctx.beginPath();
+        ctx.moveTo(56, 150);
+        ctx.lineTo(112, 82);
+        ctx.lineTo(164, 150);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "#f8f6ef";
+        ctx.beginPath();
+        ctx.moveTo(80, 64);
+        ctx.lineTo(66, 86);
+        ctx.lineTo(93, 84);
+        ctx.closePath();
+        ctx.fill();
+        canvas.toBlob((blob) => {
+          loadImageFile(new File([blob], "sample-landscape.png", { type: "image/png" }));
+        }, "image/png");
+      });
+
+      $("dropzone").addEventListener("dragover", (event) => {
+        event.preventDefault();
+        $("dropzone").classList.add("dragover");
+      });
+
+      $("dropzone").addEventListener("dragleave", () => $("dropzone").classList.remove("dragover"));
+      $("dropzone").addEventListener("drop", (event) => {
+        event.preventDefault();
+        $("dropzone").classList.remove("dragover");
+        const file = event.dataTransfer.files[0];
+        if (file && file.type.startsWith("image/")) loadImageFile(file);
+      });
+
+      $("sizePresets").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-size]");
+        if (!button) return;
+        const size = Number(button.dataset.size);
+        $("widthInput").value = size;
+        $("heightInput").value = size;
+        document.querySelectorAll("#sizePresets button").forEach((node) => node.classList.toggle("active", node === button));
+        updateLabels();
+        renderTemplate();
+      });
+
+      $("renderMode").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-mode]");
+        if (!button) return;
+        state.mode = button.dataset.mode;
+        document.querySelectorAll("#renderMode button").forEach((node) => node.classList.toggle("active", node === button));
+        drawCanvas();
+      });
+
+      $("exportPng").addEventListener("click", () => {
+        const link = document.createElement("a");
+        link.download = "拼豆模板.png";
+        link.href = $("templateCanvas").toDataURL("image/png");
+        link.click();
+      });
+
+      $("exportCsv").addEventListener("click", () => {
+        const rows = [["色号", "颜色名", "HEX", "数量"]].concat(state.stats.map((item) => [item.code, item.name, item.hex, item.count]));
+        const csv = rows.map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(",")).join("\n");
+        const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.download = "拼豆用量清单.csv";
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      function loadImageFile(file) {
+        if (state.sourceUrl) URL.revokeObjectURL(state.sourceUrl);
+        state.sourceUrl = URL.createObjectURL(file);
+        state.imageName = file.name;
+        const img = new Image();
+        img.onload = () => {
+          state.image = img;
+          renderTemplate();
+        };
+        img.src = state.sourceUrl;
+      }
+
+      function updateLabels() {
+        $("widthLabel").textContent = $("widthInput").value;
+        $("heightLabel").textContent = $("heightInput").value;
+        $("colorLimitLabel").textContent = $("colorLimit").value;
+        $("brightnessLabel").textContent = $("brightnessInput").value;
+        $("contrastLabel").textContent = $("contrastInput").value;
+        $("saturationLabel").textContent = $("saturationInput").value;
+      }
+
+      function renderTemplate() {
+        if (!state.image) {
+          updateLabels();
+          return;
+        }
+
+        const width = clamp(Number($("widthInput").value), 8, 180);
+        const height = clamp(Number($("heightInput").value), 8, 180);
+        const fullPalette = palettes[$("paletteSelect").value].map(([code, name, hex]) => ({ code, name, hex, rgb: hexToRgb(hex), lab: rgbToLab(hexToRgb(hex)) }));
+        const colors = pickPalette(fullPalette, Number($("colorLimit").value));
+        const sampled = sampleImage(state.image, width, height);
+        const adjusted = adjustPixels(sampled.data);
+        const result = $("ditherInput").checked ? matchDithered(adjusted, width, height, colors) : matchDirect(adjusted, width, height, colors);
+        state.pixels = result.pixels;
+        state.blanks = result.blanks;
+        state.stats = buildStats(state.pixels);
+
+        drawCanvas();
+        renderStats(width, height);
+        $("emptyState").classList.add("hidden");
+        $("templateCanvas").classList.remove("hidden");
+        $("exportPng").disabled = false;
+        $("exportCsv").disabled = false;
+      }
+
+      function sampleImage(image, width, height) {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        ctx.imageSmoothingEnabled = true;
+        const srcRatio = image.width / image.height;
+        const dstRatio = width / height;
+        let sx = 0;
+        let sy = 0;
+        let sw = image.width;
+        let sh = image.height;
+        if (srcRatio > dstRatio) {
+          sw = image.height * dstRatio;
+          sx = (image.width - sw) / 2;
+        } else {
+          sh = image.width / dstRatio;
+          sy = (image.height - sh) / 2;
+        }
+        ctx.drawImage(image, sx, sy, sw, sh, 0, 0, width, height);
+        return ctx.getImageData(0, 0, width, height);
+      }
+
+      function adjustPixels(data) {
+        const out = new Uint8ClampedArray(data);
+        const brightness = Number($("brightnessInput").value);
+        const contrast = Number($("contrastInput").value);
+        const saturation = Number($("saturationInput").value) / 100;
+        const contrastFactor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+        for (let i = 0; i < out.length; i += 4) {
+          let r = contrastFactor * (out[i] - 128) + 128 + brightness;
+          let g = contrastFactor * (out[i + 1] - 128) + 128 + brightness;
+          let b = contrastFactor * (out[i + 2] - 128) + 128 + brightness;
+          const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+          r = gray + (r - gray) * (1 + saturation);
+          g = gray + (g - gray) * (1 + saturation);
+          b = gray + (b - gray) * (1 + saturation);
+          out[i] = clamp(Math.round(r), 0, 255);
+          out[i + 1] = clamp(Math.round(g), 0, 255);
+          out[i + 2] = clamp(Math.round(b), 0, 255);
+        }
+        return out;
+      }
+
+      function pickPalette(fullPalette, limit) {
+        return fullPalette.slice(0, clamp(limit, 4, fullPalette.length));
+      }
+
+      function matchDirect(data, width, height, palette) {
+        const pixels = [];
+        let blanks = 0;
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const i = (y * width + x) * 4;
+            if ($("transparentInput").checked && data[i + 3] < 80) {
+              pixels.push(null);
+              blanks++;
+              continue;
+            }
+            pixels.push(nearestColor([data[i], data[i + 1], data[i + 2]], palette));
+          }
+        }
+        return { pixels, blanks };
+      }
+
+      function matchDithered(data, width, height, palette) {
+        const work = Array.from({ length: width * height }, (_, index) => {
+          const i = index * 4;
+          return [data[i], data[i + 1], data[i + 2], data[i + 3]];
+        });
+        const pixels = new Array(width * height);
+        let blanks = 0;
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const index = y * width + x;
+            const current = work[index];
+            if ($("transparentInput").checked && current[3] < 80) {
+              pixels[index] = null;
+              blanks++;
+              continue;
+            }
+            const color = nearestColor(current, palette);
+            pixels[index] = color;
+            const error = [current[0] - color.rgb[0], current[1] - color.rgb[1], current[2] - color.rgb[2]];
+            spreadError(work, width, height, x + 1, y, error, 7 / 16);
+            spreadError(work, width, height, x - 1, y + 1, error, 3 / 16);
+            spreadError(work, width, height, x, y + 1, error, 5 / 16);
+            spreadError(work, width, height, x + 1, y + 1, error, 1 / 16);
+          }
+        }
+        return { pixels, blanks };
+      }
+
+      function spreadError(work, width, height, x, y, error, factor) {
+        if (x < 0 || x >= width || y < 0 || y >= height) return;
+        const pixel = work[y * width + x];
+        pixel[0] = clamp(pixel[0] + error[0] * factor, 0, 255);
+        pixel[1] = clamp(pixel[1] + error[1] * factor, 0, 255);
+        pixel[2] = clamp(pixel[2] + error[2] * factor, 0, 255);
+      }
+
+      function nearestColor(rgb, palette) {
+        const lab = rgbToLab(rgb);
+        let best = palette[0];
+        let bestDistance = Infinity;
+        for (const color of palette) {
+          const distance = Math.hypot(lab[0] - color.lab[0], lab[1] - color.lab[1], lab[2] - color.lab[2]);
+          if (distance < bestDistance) {
+            best = color;
+            bestDistance = distance;
+          }
+        }
+        return best;
+      }
+
+      function buildStats(pixels) {
+        const map = new Map();
+        for (const color of pixels) {
+          if (!color) continue;
+          const key = color.code;
+          const entry = map.get(key) || { ...color, count: 0 };
+          entry.count++;
+          map.set(key, entry);
+        }
+        return [...map.values()].sort((a, b) => b.count - a.count);
+      }
+
+      function drawCanvas() {
+        if (!state.pixels.length) return;
+        const width = clamp(Number($("widthInput").value), 8, 180);
+        const height = clamp(Number($("heightInput").value), 8, 180);
+        const cell = state.mode === "symbols" && width <= 80 && height <= 80 ? 24 : 18;
+        const canvas = $("templateCanvas");
+        canvas.width = width * cell + 1;
+        canvas.height = height * cell + 1;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = "#ded8cf";
+        ctx.lineWidth = 1;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font = "700 9px Inter, Arial, sans-serif";
+
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const color = state.pixels[y * width + x];
+            const px = x * cell;
+            const py = y * cell;
+            ctx.strokeStyle = "#ded8cf";
+            ctx.strokeRect(px + 0.5, py + 0.5, cell, cell);
+            if (!color) {
+              ctx.fillStyle = "#f7f4ef";
+              ctx.fillRect(px + 1, py + 1, cell - 1, cell - 1);
+              continue;
+            }
+            ctx.fillStyle = color.hex;
+            if (state.mode === "beads") {
+              ctx.beginPath();
+              ctx.arc(px + cell / 2, py + cell / 2, Math.max(3, cell * 0.38), 0, Math.PI * 2);
+              ctx.fill();
+              ctx.fillStyle = "rgba(255,255,255,0.38)";
+              ctx.beginPath();
+              ctx.arc(px + cell * 0.38, py + cell * 0.36, Math.max(1.4, cell * 0.09), 0, Math.PI * 2);
+              ctx.fill();
+            } else {
+              ctx.fillRect(px + 1, py + 1, cell - 1, cell - 1);
+            }
+            if (state.mode === "symbols" && cell >= 20) {
+              ctx.fillStyle = readableTextColor(color.rgb);
+              ctx.fillText(color.code.replace(/[A-Z]/g, ""), px + cell / 2, py + cell / 2 + 0.5);
+            }
+          }
+        }
+      }
+
+      function renderStats(width, height) {
+        const total = width * height - state.blanks;
+        $("totalBeads").textContent = total.toLocaleString("zh-CN");
+        $("usedColors").textContent = state.stats.length;
+        $("blankBeads").textContent = state.blanks.toLocaleString("zh-CN");
+        $("templateMeta").textContent = `${state.imageName} · ${width} x ${height} · ${total.toLocaleString("zh-CN")} 颗`;
+        $("paletteList").innerHTML = "";
+        if (!state.stats.length) {
+          $("paletteList").innerHTML = '<div class="empty-state" style="padding:30px 20px">暂无颜色数据</div>';
+          return;
+        }
+        for (const item of state.stats) {
+          const row = document.createElement("div");
+          row.className = "color-row";
+          row.innerHTML = `
+            <div class="swatch" style="background:${item.hex}"></div>
+            <div>
+              <div class="color-name">${item.name}</div>
+              <div class="color-code">${item.code} · ${item.hex}</div>
+            </div>
+            <div class="count">${item.count}</div>
+          `;
+          $("paletteList").appendChild(row);
+        }
+      }
+
+      function hexToRgb(hex) {
+        const value = hex.replace("#", "");
+        return [0, 2, 4].map((offset) => parseInt(value.slice(offset, offset + 2), 16));
+      }
+
+      function rgbToLab(rgb) {
+        let [r, g, b] = rgb.map((value) => {
+          value /= 255;
+          return value > 0.04045 ? Math.pow((value + 0.055) / 1.055, 2.4) : value / 12.92;
+        });
+        let x = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047;
+        let y = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 1.00000;
+        let z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
+        [x, y, z] = [x, y, z].map((value) => value > 0.008856 ? Math.cbrt(value) : (7.787 * value) + 16 / 116);
+        return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)];
+      }
+
+      function readableTextColor(rgb) {
+        const luminance = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+        return luminance > 0.57 ? "#1c1b1a" : "#ffffff";
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+
+      updateLabels();
+    </script>
+  </body>
+</html>
