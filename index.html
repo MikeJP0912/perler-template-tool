@@ -425,6 +425,22 @@
           grid-template-columns: 1fr;
         }
       }
+      .brand-text {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .lang-switch {
+        flex-shrink: 0;
+        align-self: flex-start;
+        width: 84px;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .lang-switch button {
+        min-height: 30px;
+        font-size: 13px;
+      }
     </style>
   </head>
   <body>
@@ -442,38 +458,42 @@
             <span style="background:#56ccf2"></span>
             <span style="background:#eb5757"></span>
           </div>
-          <div>
-            <h1>拼豆模板生成器</h1>
-            <div class="subhead">图片转像素模板和用量清单</div>
+          <div class="brand-text">
+            <h1 data-i18n="appTitle">拼豆模板生成器</h1>
+            <div class="subhead" data-i18n="subhead">图片转像素模板和用量清单</div>
+          </div>
+          <div id="langSwitch" class="segmented lang-switch" role="group" aria-label="Language / 语言">
+            <button type="button" data-lang="zh" class="active">中</button>
+            <button type="button" data-lang="en">EN</button>
           </div>
         </div>
 
         <div class="section" style="border-top:0;padding-top:0;margin-top:0">
-          <div class="section-title">图片</div>
+          <div class="section-title" data-i18n="image">图片</div>
           <label id="dropzone" class="dropzone">
             <input id="imageInput" type="file" accept="image/*" />
             <span class="drop-copy">
-              <strong>上传图片</strong>
-              PNG、JPG、WebP 均可
+              <strong data-i18n="upload">上传图片</strong>
+              <span data-i18n="formats">PNG、JPG、WebP 均可</span>
             </span>
           </label>
-          <button id="loadSample" type="button" class="btn" style="width:100%;margin-top:10px">示例图</button>
+          <button id="loadSample" type="button" class="btn" style="width:100%;margin-top:10px" data-i18n="sample">示例图</button>
         </div>
 
         <div class="section">
-          <div class="section-title">尺寸</div>
+          <div class="section-title" data-i18n="size">尺寸</div>
           <div class="grid-two">
             <div class="control">
-              <label for="widthInput"><strong>宽度</strong><span id="widthLabel">48</span></label>
+              <label for="widthInput"><strong data-i18n="width">宽度</strong><span id="widthLabel">48</span></label>
               <input id="widthInput" type="number" min="8" max="180" value="58" />
             </div>
             <div class="control">
-              <label for="heightInput"><strong>高度</strong><span id="heightLabel">48</span></label>
+              <label for="heightInput"><strong data-i18n="height">高度</strong><span id="heightLabel">48</span></label>
               <input id="heightInput" type="number" min="8" max="180" value="58" />
             </div>
           </div>
           <div class="control">
-            <label><strong>常用钉板</strong><span>快速设置</span></label>
+            <label><strong data-i18n="pegboard">常用钉板</strong><span data-i18n="quickSet">快速设置</span></label>
             <div class="segmented" id="sizePresets">
               <button type="button" data-size="29">29</button>
               <button type="button" data-size="58" class="active">58</button>
@@ -483,48 +503,48 @@
         </div>
 
         <div class="section">
-          <div class="section-title">颜色</div>
+          <div class="section-title" data-i18n="colors">颜色</div>
           <div class="control">
-            <label for="paletteSelect"><strong>色卡</strong><span>内置基础色</span></label>
+            <label for="paletteSelect"><strong data-i18n="palette">色卡</strong><span data-i18n="builtIn">内置基础色</span></label>
             <select id="paletteSelect">
-              <option value="classic">经典拼豆色卡</option>
-              <option value="soft">低饱和柔和色卡</option>
-              <option value="bold">高饱和鲜明色卡</option>
+              <option value="classic" data-i18n="paletteClassic">经典拼豆色卡</option>
+              <option value="soft" data-i18n="paletteSoft">低饱和柔和色卡</option>
+              <option value="bold" data-i18n="paletteBold">高饱和鲜明色卡</option>
             </select>
           </div>
           <div class="control">
-            <label for="colorLimit"><strong>颜色上限</strong><span id="colorLimitLabel">24</span></label>
+            <label for="colorLimit"><strong data-i18n="colorLimit">颜色上限</strong><span id="colorLimitLabel">24</span></label>
             <input id="colorLimit" type="range" min="4" max="48" value="24" />
           </div>
           <label class="toggle">
-            <span>启用抖动，让渐变更自然</span>
+            <span data-i18n="dither">启用抖动，让渐变更自然</span>
             <input id="ditherInput" type="checkbox" checked />
           </label>
           <label class="toggle">
-            <span>透明区域留空</span>
+            <span data-i18n="transparent">透明区域留空</span>
             <input id="transparentInput" type="checkbox" checked />
           </label>
         </div>
 
         <div class="section">
-          <div class="section-title">图像调整</div>
+          <div class="section-title" data-i18n="adjust">图像调整</div>
           <div class="control">
-            <label for="brightnessInput"><strong>亮度</strong><span id="brightnessLabel">0</span></label>
+            <label for="brightnessInput"><strong data-i18n="brightness">亮度</strong><span id="brightnessLabel">0</span></label>
             <input id="brightnessInput" type="range" min="-40" max="40" value="0" />
           </div>
           <div class="control">
-            <label for="contrastInput"><strong>对比度</strong><span id="contrastLabel">0</span></label>
+            <label for="contrastInput"><strong data-i18n="contrast">对比度</strong><span id="contrastLabel">0</span></label>
             <input id="contrastInput" type="range" min="-40" max="40" value="0" />
           </div>
           <div class="control">
-            <label for="saturationInput"><strong>饱和度</strong><span id="saturationLabel">0</span></label>
+            <label for="saturationInput"><strong data-i18n="saturation">饱和度</strong><span id="saturationLabel">0</span></label>
             <input id="saturationInput" type="range" min="-50" max="60" value="0" />
           </div>
         </div>
 
         <div class="actions">
-          <button id="exportPng" type="button" class="btn primary" disabled>导出 PNG</button>
-          <button id="exportCsv" type="button" class="btn" disabled>导出清单</button>
+          <button id="exportPng" type="button" class="btn primary" disabled data-i18n="exportPng">导出 PNG</button>
+          <button id="exportCsv" type="button" class="btn" disabled data-i18n="exportCsv">导出清单</button>
         </div>
       </aside>
 
@@ -533,17 +553,17 @@
           <section class="preview-band">
             <div class="preview-top">
               <div>
-                <div class="preview-title">模板预览</div>
-                <div id="templateMeta" class="meta">等待图片上传</div>
+                <div class="preview-title" data-i18n="preview">模板预览</div>
+                <div id="templateMeta" class="meta" data-i18n="waiting">等待图片上传</div>
               </div>
               <div id="renderMode" class="segmented" style="width:236px">
-                <button type="button" data-mode="beads" class="active">圆豆</button>
-                <button type="button" data-mode="grid">格子</button>
-                <button type="button" data-mode="symbols">编号</button>
+                <button type="button" data-mode="beads" class="active" data-i18n="modeBeads">圆豆</button>
+                <button type="button" data-mode="grid" data-i18n="modeGrid">格子</button>
+                <button type="button" data-mode="symbols" data-i18n="modeSymbols">编号</button>
               </div>
             </div>
             <div class="canvas-wrap">
-              <div id="emptyState" class="empty-state">
+              <div id="emptyState" class="empty-state" data-i18n="emptyPreview">
                 上传一张图片后，这里会生成每颗豆对应一个格子的彩色模板。
               </div>
               <canvas id="templateCanvas" class="hidden"></canvas>
@@ -553,17 +573,17 @@
           <section class="stats-band">
             <div class="stats-top">
               <div>
-                <div class="stats-title">用量清单</div>
-                <div class="meta">按数量从多到少排序</div>
+                <div class="stats-title" data-i18n="usage">用量清单</div>
+                <div class="meta" data-i18n="sorted">按数量从多到少排序</div>
               </div>
             </div>
             <div class="summary">
-              <div><strong id="totalBeads">0</strong><span>总颗数</span></div>
-              <div><strong id="usedColors">0</strong><span>使用颜色</span></div>
-              <div><strong id="blankBeads">0</strong><span>留空格</span></div>
+              <div><strong id="totalBeads">0</strong><span data-i18n="total">总颗数</span></div>
+              <div><strong id="usedColors">0</strong><span data-i18n="used">使用颜色</span></div>
+              <div><strong id="blankBeads">0</strong><span data-i18n="blank">留空格</span></div>
             </div>
             <div id="paletteList" class="palette-list">
-              <div class="empty-state" style="padding:30px 20px">暂无颜色数据</div>
+              <div class="empty-state" style="padding:30px 20px" data-i18n="noData">暂无颜色数据</div>
             </div>
           </section>
         </div>
@@ -571,44 +591,140 @@
     </div>
 
     <script>
+      const i18n = {
+        zh: {
+          htmlLang: "zh-CN",
+          locale: "zh-CN",
+          appTitle: "拼豆模板生成器",
+          subhead: "图片转像素模板和用量清单",
+          image: "图片",
+          upload: "上传图片",
+          formats: "PNG、JPG、WebP 均可",
+          sample: "示例图",
+          size: "尺寸",
+          width: "宽度",
+          height: "高度",
+          pegboard: "常用钉板",
+          quickSet: "快速设置",
+          colors: "颜色",
+          palette: "色卡",
+          builtIn: "内置基础色",
+          paletteClassic: "经典拼豆色卡",
+          paletteSoft: "低饱和柔和色卡",
+          paletteBold: "高饱和鲜明色卡",
+          colorLimit: "颜色上限",
+          dither: "启用抖动，让渐变更自然",
+          transparent: "透明区域留空",
+          adjust: "图像调整",
+          brightness: "亮度",
+          contrast: "对比度",
+          saturation: "饱和度",
+          exportPng: "导出 PNG",
+          exportCsv: "导出清单",
+          preview: "模板预览",
+          waiting: "等待图片上传",
+          modeBeads: "圆豆",
+          modeGrid: "格子",
+          modeSymbols: "编号",
+          emptyPreview: "上传一张图片后，这里会生成每颗豆对应一个格子的彩色模板。",
+          usage: "用量清单",
+          sorted: "按数量从多到少排序",
+          total: "总颗数",
+          used: "使用颜色",
+          blank: "留空格",
+          noData: "暂无颜色数据",
+          beadsUnit: "颗",
+          csvHeaders: ["色号", "颜色名", "HEX", "数量"],
+          pngFile: "拼豆模板.png",
+          csvFile: "拼豆用量清单.csv"
+        },
+        en: {
+          htmlLang: "en",
+          locale: "en-US",
+          appTitle: "Perler Bead Pattern Maker",
+          subhead: "Turn images into bead patterns and color counts",
+          image: "Image",
+          upload: "Upload image",
+          formats: "PNG, JPG or WebP",
+          sample: "Sample image",
+          size: "Size",
+          width: "Width",
+          height: "Height",
+          pegboard: "Common pegboards",
+          quickSet: "Quick set",
+          colors: "Colors",
+          palette: "Palette",
+          builtIn: "Built-in colors",
+          paletteClassic: "Classic bead palette",
+          paletteSoft: "Soft muted palette",
+          paletteBold: "Bold vivid palette",
+          colorLimit: "Max colors",
+          dither: "Dithering for smoother gradients",
+          transparent: "Leave transparent areas blank",
+          adjust: "Image adjustments",
+          brightness: "Brightness",
+          contrast: "Contrast",
+          saturation: "Saturation",
+          exportPng: "Export PNG",
+          exportCsv: "Export list",
+          preview: "Pattern preview",
+          waiting: "Waiting for an image",
+          modeBeads: "Beads",
+          modeGrid: "Grid",
+          modeSymbols: "Numbers",
+          emptyPreview: "Upload an image to generate a color pattern here, with one cell per bead.",
+          usage: "Bead count",
+          sorted: "Sorted from most to least used",
+          total: "Total beads",
+          used: "Colors used",
+          blank: "Blank cells",
+          noData: "No color data yet",
+          beadsUnit: "beads",
+          csvHeaders: ["Code", "Color name", "HEX", "Count"],
+          pngFile: "perler-pattern.png",
+          csvFile: "perler-bead-count.csv"
+        }
+      };
+
+      // [code, Chinese name, English name, hex]
       const palettes = {
         classic: [
-          ["K01", "白色", "#f8f6ef"], ["K02", "奶油", "#ead7a5"], ["K03", "黄色", "#f5cf2e"],
-          ["K04", "橙色", "#f28c28"], ["K05", "红色", "#d83b35"], ["K06", "粉红", "#ee8fa9"],
-          ["K07", "玫红", "#c73373"], ["K08", "紫色", "#7447a8"], ["K09", "深紫", "#44326f"],
-          ["K10", "浅蓝", "#70b7dd"], ["K11", "蓝色", "#2e76bd"], ["K12", "深蓝", "#214a86"],
-          ["K13", "青绿", "#1f9d91"], ["K14", "薄荷", "#85c9a5"], ["K15", "绿色", "#4a9b45"],
-          ["K16", "深绿", "#2f6239"], ["K17", "浅棕", "#b7804b"], ["K18", "棕色", "#6d452b"],
-          ["K19", "灰色", "#8c8e8f"], ["K20", "浅灰", "#c8c8c4"], ["K21", "黑色", "#242322"],
-          ["K22", "珊瑚", "#f06b5d"], ["K23", "天蓝", "#9ad7e9"], ["K24", "酒红", "#7e273b"],
-          ["K25", "米色", "#d9c4a0"], ["K26", "橄榄", "#787a39"], ["K27", "荧光绿", "#a6d943"],
-          ["K28", "薰衣草", "#b49ad7"], ["K29", "桃色", "#f0b28f"], ["K30", "海军蓝", "#182f4f"],
-          ["K31", "金黄", "#d7a829"], ["K32", "砖红", "#994037"], ["K33", "青色", "#28a9c7"],
-          ["K34", "森林绿", "#24513c"], ["K35", "烟粉", "#d9a4a8"], ["K36", "炭灰", "#4a4a4a"],
-          ["K37", "浅紫", "#d5c1ea"], ["K38", "酸橙", "#c4d94a"], ["K39", "杏色", "#f2c7a4"],
-          ["K40", "孔雀蓝", "#156d7d"], ["K41", "巧克力", "#3f271b"], ["K42", "象牙", "#fff1d0"],
-          ["K43", "莓果", "#9b1f58"], ["K44", "浅绿", "#b8df8f"], ["K45", "银灰", "#a8adb0"],
-          ["K46", "深红", "#8e1f25"], ["K47", "水蓝", "#c7edf0"], ["K48", "墨绿", "#173c2d"]
+          ["K01", "白色", "White", "#f8f6ef"], ["K02", "奶油", "Cream", "#ead7a5"], ["K03", "黄色", "Yellow", "#f5cf2e"],
+          ["K04", "橙色", "Orange", "#f28c28"], ["K05", "红色", "Red", "#d83b35"], ["K06", "粉红", "Pink", "#ee8fa9"],
+          ["K07", "玫红", "Rose", "#c73373"], ["K08", "紫色", "Purple", "#7447a8"], ["K09", "深紫", "Dark Purple", "#44326f"],
+          ["K10", "浅蓝", "Light Blue", "#70b7dd"], ["K11", "蓝色", "Blue", "#2e76bd"], ["K12", "深蓝", "Dark Blue", "#214a86"],
+          ["K13", "青绿", "Teal", "#1f9d91"], ["K14", "薄荷", "Mint", "#85c9a5"], ["K15", "绿色", "Green", "#4a9b45"],
+          ["K16", "深绿", "Dark Green", "#2f6239"], ["K17", "浅棕", "Light Brown", "#b7804b"], ["K18", "棕色", "Brown", "#6d452b"],
+          ["K19", "灰色", "Gray", "#8c8e8f"], ["K20", "浅灰", "Light Gray", "#c8c8c4"], ["K21", "黑色", "Black", "#242322"],
+          ["K22", "珊瑚", "Coral", "#f06b5d"], ["K23", "天蓝", "Sky Blue", "#9ad7e9"], ["K24", "酒红", "Burgundy", "#7e273b"],
+          ["K25", "米色", "Beige", "#d9c4a0"], ["K26", "橄榄", "Olive", "#787a39"], ["K27", "荧光绿", "Neon Green", "#a6d943"],
+          ["K28", "薰衣草", "Lavender", "#b49ad7"], ["K29", "桃色", "Peach", "#f0b28f"], ["K30", "海军蓝", "Navy", "#182f4f"],
+          ["K31", "金黄", "Golden Yellow", "#d7a829"], ["K32", "砖红", "Brick Red", "#994037"], ["K33", "青色", "Cyan", "#28a9c7"],
+          ["K34", "森林绿", "Forest Green", "#24513c"], ["K35", "烟粉", "Dusty Pink", "#d9a4a8"], ["K36", "炭灰", "Charcoal", "#4a4a4a"],
+          ["K37", "浅紫", "Light Purple", "#d5c1ea"], ["K38", "酸橙", "Lime", "#c4d94a"], ["K39", "杏色", "Apricot", "#f2c7a4"],
+          ["K40", "孔雀蓝", "Peacock Blue", "#156d7d"], ["K41", "巧克力", "Chocolate", "#3f271b"], ["K42", "象牙", "Ivory", "#fff1d0"],
+          ["K43", "莓果", "Berry", "#9b1f58"], ["K44", "浅绿", "Light Green", "#b8df8f"], ["K45", "银灰", "Silver Gray", "#a8adb0"],
+          ["K46", "深红", "Dark Red", "#8e1f25"], ["K47", "水蓝", "Aqua", "#c7edf0"], ["K48", "墨绿", "Deep Green", "#173c2d"]
         ],
         soft: [
-          ["S01", "瓷白", "#fbf8f2"], ["S02", "雾黄", "#e9d883"], ["S03", "杏粉", "#efb4a5"],
-          ["S04", "浅桃", "#f2c7bb"], ["S05", "雾红", "#c96f69"], ["S06", "豆沙", "#b55d78"],
-          ["S07", "藕紫", "#a58cb8"], ["S08", "灰紫", "#7e7294"], ["S09", "雾蓝", "#8db5cf"],
-          ["S10", "湖蓝", "#6ba3b8"], ["S11", "蓝灰", "#5c7895"], ["S12", "淡青", "#9ccfc9"],
-          ["S13", "鼠尾草", "#91ad80"], ["S14", "苔绿", "#6f8359"], ["S15", "米棕", "#b49a77"],
-          ["S16", "驼色", "#96785c"], ["S17", "浅灰", "#c8c6bf"], ["S18", "暖灰", "#9e9990"],
-          ["S19", "深灰", "#55514d"], ["S20", "黑咖", "#28231f"], ["S21", "奶油", "#f0e1bc"],
-          ["S22", "浅绿", "#c3d3a3"], ["S23", "雾粉", "#e4a7b2"], ["S24", "霜蓝", "#c1dce8"]
+          ["S01", "瓷白", "Porcelain", "#fbf8f2"], ["S02", "雾黄", "Misty Yellow", "#e9d883"], ["S03", "杏粉", "Apricot Pink", "#efb4a5"],
+          ["S04", "浅桃", "Light Peach", "#f2c7bb"], ["S05", "雾红", "Dusty Red", "#c96f69"], ["S06", "豆沙", "Mauve", "#b55d78"],
+          ["S07", "藕紫", "Lilac", "#a58cb8"], ["S08", "灰紫", "Gray Purple", "#7e7294"], ["S09", "雾蓝", "Misty Blue", "#8db5cf"],
+          ["S10", "湖蓝", "Lake Blue", "#6ba3b8"], ["S11", "蓝灰", "Blue Gray", "#5c7895"], ["S12", "淡青", "Pale Cyan", "#9ccfc9"],
+          ["S13", "鼠尾草", "Sage", "#91ad80"], ["S14", "苔绿", "Moss Green", "#6f8359"], ["S15", "米棕", "Sand Brown", "#b49a77"],
+          ["S16", "驼色", "Camel", "#96785c"], ["S17", "浅灰", "Light Gray", "#c8c6bf"], ["S18", "暖灰", "Warm Gray", "#9e9990"],
+          ["S19", "深灰", "Dark Gray", "#55514d"], ["S20", "黑咖", "Espresso", "#28231f"], ["S21", "奶油", "Cream", "#f0e1bc"],
+          ["S22", "浅绿", "Light Green", "#c3d3a3"], ["S23", "雾粉", "Misty Pink", "#e4a7b2"], ["S24", "霜蓝", "Frost Blue", "#c1dce8"]
         ],
         bold: [
-          ["B01", "白", "#ffffff"], ["B02", "柠檬黄", "#ffe02b"], ["B03", "金橙", "#ff9c1b"],
-          ["B04", "正红", "#e31d2b"], ["B05", "亮粉", "#ff5aa7"], ["B06", "洋红", "#d31f7c"],
-          ["B07", "紫", "#6d35c4"], ["B08", "电蓝", "#1667d9"], ["B09", "天蓝", "#37b6ed"],
-          ["B10", "青", "#00a7a5"], ["B11", "翠绿", "#24b84a"], ["B12", "荧光绿", "#a8e52c"],
-          ["B13", "深绿", "#176a38"], ["B14", "棕", "#75431f"], ["B15", "浅棕", "#c0843d"],
-          ["B16", "肤色", "#f0b483"], ["B17", "浅灰", "#d2d2d2"], ["B18", "灰", "#808080"],
-          ["B19", "黑", "#111111"], ["B20", "海蓝", "#005e88"], ["B21", "酒红", "#7d1634"],
-          ["B22", "珊瑚", "#ff7062"], ["B23", "薄荷", "#70db9c"], ["B24", "薰衣草", "#bd92ff"]
+          ["B01", "白", "White", "#ffffff"], ["B02", "柠檬黄", "Lemon Yellow", "#ffe02b"], ["B03", "金橙", "Golden Orange", "#ff9c1b"],
+          ["B04", "正红", "True Red", "#e31d2b"], ["B05", "亮粉", "Hot Pink", "#ff5aa7"], ["B06", "洋红", "Magenta", "#d31f7c"],
+          ["B07", "紫", "Purple", "#6d35c4"], ["B08", "电蓝", "Electric Blue", "#1667d9"], ["B09", "天蓝", "Sky Blue", "#37b6ed"],
+          ["B10", "青", "Cyan", "#00a7a5"], ["B11", "翠绿", "Emerald", "#24b84a"], ["B12", "荧光绿", "Neon Green", "#a8e52c"],
+          ["B13", "深绿", "Dark Green", "#176a38"], ["B14", "棕", "Brown", "#75431f"], ["B15", "浅棕", "Light Brown", "#c0843d"],
+          ["B16", "肤色", "Skin Tone", "#f0b483"], ["B17", "浅灰", "Light Gray", "#d2d2d2"], ["B18", "灰", "Gray", "#808080"],
+          ["B19", "黑", "Black", "#111111"], ["B20", "海蓝", "Ocean Blue", "#005e88"], ["B21", "酒红", "Burgundy", "#7d1634"],
+          ["B22", "珊瑚", "Coral", "#ff7062"], ["B23", "薄荷", "Mint", "#70db9c"], ["B24", "薰衣草", "Lavender", "#bd92ff"]
         ]
       };
 
@@ -620,8 +736,44 @@
         stats: [],
         blanks: 0,
         mode: "beads",
-        sourceUrl: ""
+        sourceUrl: "",
+        lang: detectLanguage()
       };
+
+      function detectLanguage() {
+        try {
+          const saved = localStorage.getItem("perler-lang");
+          if (saved === "zh" || saved === "en") return saved;
+        } catch (error) {}
+        return (navigator.language || "").toLowerCase().startsWith("zh") ? "zh" : "en";
+      }
+
+      function t(key) {
+        return i18n[state.lang][key];
+      }
+
+      function applyLanguage() {
+        document.documentElement.lang = t("htmlLang");
+        document.title = t("appTitle");
+        document.querySelectorAll("[data-i18n]").forEach((node) => {
+          if (node.id === "templateMeta" && state.pixels.length) return;
+          node.textContent = t(node.dataset.i18n);
+        });
+        document.querySelectorAll("#langSwitch button").forEach((node) => node.classList.toggle("active", node.dataset.lang === state.lang));
+        if (state.pixels.length) {
+          renderStats(clamp(Number($("widthInput").value), 8, 180), clamp(Number($("heightInput").value), 8, 180));
+        }
+      }
+
+      $("langSwitch").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-lang]");
+        if (!button || button.dataset.lang === state.lang) return;
+        state.lang = button.dataset.lang;
+        try {
+          localStorage.setItem("perler-lang", state.lang);
+        } catch (error) {}
+        applyLanguage();
+      });
 
       const inputIds = [
         "widthInput", "heightInput", "paletteSelect", "colorLimit", "ditherInput",
@@ -712,18 +864,18 @@
 
       $("exportPng").addEventListener("click", () => {
         const link = document.createElement("a");
-        link.download = "拼豆模板.png";
+        link.download = t("pngFile");
         link.href = $("templateCanvas").toDataURL("image/png");
         link.click();
       });
 
       $("exportCsv").addEventListener("click", () => {
-        const rows = [["色号", "颜色名", "HEX", "数量"]].concat(state.stats.map((item) => [item.code, item.name, item.hex, item.count]));
+        const rows = [t("csvHeaders")].concat(state.stats.map((item) => [item.code, item.names[state.lang], item.hex, item.count]));
         const csv = rows.map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(",")).join("\n");
         const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
-        link.download = "拼豆用量清单.csv";
+        link.download = t("csvFile");
         link.href = url;
         link.click();
         URL.revokeObjectURL(url);
@@ -758,7 +910,7 @@
 
         const width = clamp(Number($("widthInput").value), 8, 180);
         const height = clamp(Number($("heightInput").value), 8, 180);
-        const fullPalette = palettes[$("paletteSelect").value].map(([code, name, hex]) => ({ code, name, hex, rgb: hexToRgb(hex), lab: rgbToLab(hexToRgb(hex)) }));
+        const fullPalette = palettes[$("paletteSelect").value].map(([code, zh, en, hex]) => ({ code, names: { zh, en }, hex, rgb: hexToRgb(hex), lab: rgbToLab(hexToRgb(hex)) }));
         const colors = pickPalette(fullPalette, Number($("colorLimit").value));
         const sampled = sampleImage(state.image, width, height);
         const adjusted = adjustPixels(sampled.data);
@@ -953,13 +1105,14 @@
 
       function renderStats(width, height) {
         const total = width * height - state.blanks;
-        $("totalBeads").textContent = total.toLocaleString("zh-CN");
+        const locale = t("locale");
+        $("totalBeads").textContent = total.toLocaleString(locale);
         $("usedColors").textContent = state.stats.length;
-        $("blankBeads").textContent = state.blanks.toLocaleString("zh-CN");
-        $("templateMeta").textContent = `${state.imageName} · ${width} x ${height} · ${total.toLocaleString("zh-CN")} 颗`;
+        $("blankBeads").textContent = state.blanks.toLocaleString(locale);
+        $("templateMeta").textContent = `${state.imageName} · ${width} x ${height} · ${total.toLocaleString(locale)} ${t("beadsUnit")}`;
         $("paletteList").innerHTML = "";
         if (!state.stats.length) {
-          $("paletteList").innerHTML = '<div class="empty-state" style="padding:30px 20px">暂无颜色数据</div>';
+          $("paletteList").innerHTML = `<div class="empty-state" style="padding:30px 20px">${t("noData")}</div>`;
           return;
         }
         for (const item of state.stats) {
@@ -968,7 +1121,7 @@
           row.innerHTML = `
             <div class="swatch" style="background:${item.hex}"></div>
             <div>
-              <div class="color-name">${item.name}</div>
+              <div class="color-name">${item.names[state.lang]}</div>
               <div class="color-code">${item.code} · ${item.hex}</div>
             </div>
             <div class="count">${item.count}</div>
@@ -1003,6 +1156,7 @@
         return Math.min(max, Math.max(min, value));
       }
 
+      applyLanguage();
       updateLabels();
     </script>
   </body>
